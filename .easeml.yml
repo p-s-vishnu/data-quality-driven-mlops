@@ -1,0 +1,11 @@
+ml:
+- script : ./evaluate_model.py
+# n, the accuracy of the new model; 
+# o, the accuracy of the old model; and (3) d, the percentage of new predictions that are different from the old ones (n, o, d ∈ [0, 1]).
+- condition : n - o > 0.1 +/- 0.1   
+- reliability: 0.99
+- mode : fp-free    # (fp-free, fn-free)
+- adaptivity : full # (full, none, firstChange)
+- steps : 32
+- data_mode : local
+- email: subv@duck.com
