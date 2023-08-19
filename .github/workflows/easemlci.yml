@@ -61,6 +61,8 @@ jobs:
           git config --global user.name ${GITHUB_ACTOR}
           git config --global user.email ${GITHUB_ACTOR}@email
 
+          git checkout test_ci
+
           # Calling the ci runner
           easeml_cicd_runner ${GITHUB_ACTOR} ${{ secrets.GITHUB_TOKEN }} ${GITHUB_REPOSITORY} ${GITHUB_SHA} ${GITHUB_REF_NAME} -g
 
