@@ -51,7 +51,6 @@ jobs:
 
           echo "Adding decryption and encryption keys"
           mkdir -p $HOME/.easeml/keys
-          ls -al $HOME/.easeml/keys
 
           echo "${{ secrets.B64_EASEML_PRIV }}" | base64 -d > $HOME/.easeml/keys/easeml_priv.asc
           echo "${{ secrets.B64_EASEML_PUB }}" | base64 -d > $HOME/.easeml/keys/easeml_pub.asc
