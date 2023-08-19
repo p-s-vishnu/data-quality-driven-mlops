@@ -61,6 +61,12 @@ jobs:
           git config --global user.name ${GITHUB_ACTOR}
           git config --global user.email ${GITHUB_ACTOR}@email
 
+          echo "Present dir"
+          pwd
+
+          echo "List PWD"
+          ls -al .
+
           # Calling the ci runner
           easeml_cicd_runner ${GITHUB_ACTOR} ${{ secrets.GITHUB_TOKEN }} ${GITHUB_REPOSITORY} ${GITHUB_SHA} ${GITHUB_REF_NAME} -g
 
