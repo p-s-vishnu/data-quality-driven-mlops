@@ -52,18 +52,18 @@ def encodedLabels(data):
             raise Exception()
     return np.array(data_out).astype(int)
 
-def prepare_data(x_data,max_conv_length):
-    x_data = sequence.pad_sequences(x_data, maxlen=max_conv_length)
-    return x_data
+def prepare_data(data,max_conv_length):
+    data = sequence.pad_sequences(data, maxlen=max_conv_length)
+    return data
 
-def loadAndPrepareData(fname,vocab_size=5000,max_conv_length=50):
-    data = pd.read_csv(fname,sep='	',header=None)
-    x_data_raw=data.filter([1,2,3], axis=1).copy(deep=True)
-    y_data_raw=data.filter([4], axis=1).copy(deep=True)  
-    x_data = encodeData(x_data_raw,vocab_size)
-    y_data = encodedLabels(y_data_raw)
-    x_data = prepare_data(x_data,max_conv_length)                       
-    return x_data,y_data
+def loadAndPrepareData(file_name,vocab_size=5000,max_conv_length=50):
+    features = pd.read_csv(file_name,sep='	',header=None)
+    x_data_raw=features.filter([1,2,3], axis=1).copy(deep=True)
+    y_data_raw=features.filter([4], axis=1).copy(deep=True)  
+    features = encodeData(x_data_raw,vocab_size)
+    labels = encodedLabels(y_data_raw)
+    features = prepare_data(features,max_conv_length)                       
+    return features,labels
 
 
 if __name__ == "__main__":
