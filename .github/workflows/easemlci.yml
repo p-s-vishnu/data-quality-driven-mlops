@@ -55,13 +55,17 @@ jobs:
           echo "${{ secrets.B64_EASEML_PRIV }}" | base64 -d > $HOME/.easeml/keys/easeml_priv.asc
           echo "${{ secrets.B64_EASEML_PUB }}" | base64 -d > $HOME/.easeml/keys/easeml_pub.asc
 
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+  
+      - name: Switch to 'test_ci' Branch
+        run: git checkout test_ci
+
       - name: Run CI Test
         run: |
           # Set identity for commits
           git config --global user.name ${GITHUB_ACTOR}
           git config --global user.email ${GITHUB_ACTOR}@email
-
-          git checkout test_ci
 
           # Calling the ci runner
           easeml_cicd_runner ${GITHUB_ACTOR} ${{ secrets.GITHUB_TOKEN }} ${GITHUB_REPOSITORY} ${GITHUB_SHA} ${GITHUB_REF_NAME} -g
