@@ -4,6 +4,8 @@ The code in this repository is the code used in our experimental study to explor
 
 You can find all the results in our technical report from [here](https://arxiv.org/abs/2207.14529). A version of this report is submitted as a paper and under review. 
 
+**Random seeds:** 2967137, 6837295, 235679, 5690805, 502307
+
 ## Abstract
 Modern artificial intelligence (AI) applications require large quantities of training and test data. This need creates critical challenges not only concerning the availability of such data, but also regarding its quality. For example, incomplete, erroneous or inappropriate training data can lead to unreliable models that produce ultimately poor decisions. 
 Trustworthy AI applications require high-quality training and test data along many dimensions, such as accuracy, completeness, consistency, and uniformity. 

@@ -7,8 +7,7 @@ from tqdm import tqdm
 from dataset_manager import DatasetManager
 from classification.experiments import LogRegExperiment, KNeighborsExperiment, DecisionTreeExperiment, \
     MultilayerPerceptronExperiment, SupportVectorMachineExperiment
-from polluters import TargetAccuracyPolluter, UniquenessPolluter, CompletenessPolluter, FeatureAccuracyPolluter, \
-    ClassBalancePolluter, ConsistentRepresentationPolluter
+from polluters import TargetAccuracyPolluter, CompletenessPolluter, FeatureAccuracyPolluter
 from util import start_logging
 
 DATA_DIR = Path('data/')
@@ -70,10 +69,12 @@ def main():
                 logging_info(f'Pollution parameters: {polluter.get_pollution_params()}')
                 logging_info(f'Quality Train: {train_df_quality}\nQuality Test: {test_df_quality}')
 
-                scenarios = {'train_clean_test_clean': (train_df, test_df),
-                             'train_polluted_test_clean': (train_df_polluted, test_df),
-                             'train_clean_test_polluted': (train_df, test_df_polluted),
-                             'train_polluted_test_polluted': (train_df_polluted, test_df_polluted)}
+                scenarios = {
+                    # 'train_clean_test_clean': (train_df, test_df),
+                    # 'train_clean_test_polluted': (train_df, test_df_polluted),
+                    # 'train_polluted_test_polluted': (train_df_polluted, test_df_polluted),
+                    'train_polluted_test_clean': (train_df_polluted, test_df)
+                }
 
                 # Open an existing results.json if it exists, otherwise create a new dictionary
                 try:
@@ -130,8 +131,7 @@ def main():
 
                         # Persist existing results dictionary after each experiment, in case something fails
                         with open('classification_results.json', 'w') as f:
-                            dump(existing_results, f,
-                                 indent=4, sort_keys=True)
+                            dump(existing_results, f, indent=4, sort_keys=True)
 
                         logging_info(f'{exp.name} results: {results}')
 
