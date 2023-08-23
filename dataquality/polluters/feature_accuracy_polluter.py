@@ -61,11 +61,10 @@ class FeatureAccuracyPolluter(Polluter):
         :returns: list of configured polluter instances
         :rtype: list
         """
-
         configured_polluters = list()
         static_params = cls.get_static_params(metadata, dataset, ds_name)
         for rand_seed in metadata['random_seeds']:
-            for pollution_level in [i / 20 for i in range(21)]:
+            for pollution_level in [i / 10 for i in range(10 + 1)]:
                 configured_polluters.append(cls(
                     pollution_levels=pollution_level,
                     random_seed=rand_seed,

@@ -15,7 +15,7 @@ class CompletenessPolluter(Polluter):
     the global quality measure, placeholder values for all columns are required, even if not all are polluted.
     """
 
-    POLLUTION_LEVELS = [i / 20 for i in range(21)]
+    POLLUTION_LEVELS = [i / 10 for i in range(10 + 1)]
 
     @staticmethod
     def get_static_params(metadata: dict, dataset: DataFrame, ds_name: str) -> dict:

@@ -1,6 +1,7 @@
 from json import dump, load as load_json
 from logging import info as logging_info
 from pathlib import Path
+import pandas as pd
 from pandas import read_csv
 from sklearn.model_selection import train_test_split
 from tqdm import tqdm
@@ -51,7 +52,7 @@ def main():
         # Run experiments with polluted datasets
         for polluter_class in tqdm(pollution_methods, leave=False):
             polluters = polluter_class.configure(metadata, df, ds_name)
-            for polluter in tqdm(polluters, leave=False):
+            for idx, polluter in enumerate(tqdm(polluters, leave=False)):
                 logging_info(
                     f'Polluting dataset {ds_name} with {polluter.__class__.__name__}')
 
@@ -107,8 +108,14 @@ def main():
 
                 for scenario_name, scenario_datasets in tqdm(scenarios.items(), leave=False):
                     df_train, df_test = scenario_datasets
-
+                    # scenario_name, polluter.pollution_percentages
                     # Experiment loop implementation for the classification experiments
+                    # write the pollution
+                    if "pollution_percentages" in polluter.get_pollution_params():
+                        fname = '_'.join([scenario_name, str(polluter.pollution_percentages)])+'.csv'
+                    else:
+                        fname = '_'.join([scenario_name, str(idx/len(polluters))])+'.csv'
+                    pd.concat((df_train, df_test)).to_csv(POLLUTED_DATA_DIR  / polluter.__class__.__name__ / fname, index=False)
                     for experiment in tqdm(experiments, leave=False):
                         logging_info(
                             f'Starting experiment {experiment} for scenario {scenario_name} and dataset {ds_name} with '
