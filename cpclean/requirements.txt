@@ -4,6 +4,6 @@ scipy
 scikit-learn
 fancyimpute
 missingpy
-datawig
+# datawig
 impyute
 autoimpute 
