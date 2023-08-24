@@ -112,10 +112,15 @@ def main():
                     # Experiment loop implementation for the classification experiments
                     # write the pollution
                     if "pollution_percentages" in polluter.get_pollution_params():
-                        fname = '_'.join([scenario_name, str(polluter.pollution_percentages)])+'.csv'
+                        pollution_pct = str(polluter.pollution_percentages)
+                        fname = '_'.join([scenario_name, pollution_pct])+'.csv'
                     else:
-                        fname = '_'.join([scenario_name, str(idx/len(polluters))])+'.csv'
-                    pd.concat((df_train, df_test)).to_csv(POLLUTED_DATA_DIR  / polluter.__class__.__name__ / fname, index=False)
+                        pollution_pct = str(idx/(len(polluters)-1))
+                        fname = '_'.join([scenario_name, pollution_pct])+'.csv'
+                    fpath = POLLUTED_DATA_DIR  / polluter.__class__.__name__
+                    pd.concat((df_train, df_test)).to_csv(fpath / fname, index=False)
+                    exp_predictions = []
+                    exp_columns = []
                     for experiment in tqdm(experiments, leave=False):
                         logging_info(
                             f'Starting experiment {experiment} for scenario {scenario_name} and dataset {ds_name} with '
@@ -126,6 +131,10 @@ def main():
                         exp = experiment(df_train, df_test, metadata[ds_name])
                         # Results are metrics (e.g. accuracy) returned as a dictionary
                         results = exp.run()
+                        if 'predictions' in results and any(pred := results.get('predictions')):
+                            exp_predictions.append(pred.tolist())
+                            exp_columns.append(str(exp.name))
+                            del results['predictions']
 
                         # Update the results dictionary with our current experiment
                         if existing_results[ds_name][polluter.__class__.__name__][polluter.get_pollution_params()]\
@@ -141,6 +150,7 @@ def main():
                             dump(existing_results, f, indent=4, sort_keys=True)
 
                         logging_info(f'{exp.name} results: {results}')
+                    pd.DataFrame(dict(zip(exp_columns, exp_predictions))).to_csv(str(fpath / f'predictions{pollution_pct}.csv'), index=False)
 
 
 if __name__ == "__main__":

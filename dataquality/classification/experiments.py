@@ -41,7 +41,7 @@ class ClassificationExperiment(Experiment, ABC):
         self.model.fit(X_train, y_train)
         y_pred = self.model.predict(X_test)
         test_result = classification_report(y_test, y_pred, output_dict=True)
-        return {self.name: {'scoring': test_result}}
+        return {self.name: {'scoring': test_result}, 'predictions': y_pred}
 
 
 class LogRegExperiment(ClassificationExperiment):
