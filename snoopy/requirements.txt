@@ -125,7 +125,7 @@ typer
 typing_extensions==4.7.1
 tzdata
 unicodedata2
-urllib3==1.26.16
+urllib3==1.26.18
 uvicorn==0.23.1
 wasabi
 wcwidth
