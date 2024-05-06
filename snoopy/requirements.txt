@@ -129,6 +129,6 @@ urllib3==1.26.16
 uvicorn==0.23.1
 wasabi
 wcwidth
-Werkzeug==2.3.6
+Werkzeug==3.0.3
 wrapt==1.15.0
 zipp
